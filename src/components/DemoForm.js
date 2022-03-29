@@ -6,7 +6,26 @@ class DemoForm extends Component {
         this.state = {
             name: '',
             comment: '',
-            language: 'vue'
+            language: 'vue',
+            languages: [],
+            radiobtn: ''
+        }
+    }
+    onRadiobuttonChange = e => {
+        const { name, value } = e.target;
+    
+        this.setState({
+          [name]: value
+        });
+      };
+    onCheckboxChange = e => {
+        const isChecked = e.target.checked;
+        if (isChecked) {
+            this.setState({ languages: [...this.state.languages, e.target.value] });
+        } else {
+            const index = this.state.languages.indexOf(e.target.value);
+            this.state.languages.splice(index, 1);
+            this.setState({ languages: this.state.languages });
         }
     }
 
@@ -36,13 +55,15 @@ class DemoForm extends Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
+                            <h1>React Form</h1>
+
                 <div>
                     <label htmlFor="name">Name: </label>
                     <input type="text" id="name" value={this.state.name} onChange={this.handleNameChange} />
                 </div>
                 <br />
                 <div>
-                    <label htmlFor="comment">Comments</label>
+                    <label htmlFor="comment">Comments: </label>
                     <textarea value={this.state.comment} id="comment" onChange={this.handleCommentChange}></textarea>
                 </div>
                 <br />
@@ -55,6 +76,39 @@ class DemoForm extends Component {
                     </select>
                 </div>
                 <br />
+                <div>
+                    <p>Select Languages</p>
+                    <input type="checkbox" name="languages" value="French" onChange={this.onCheckboxChange} />
+                    <label htmlFor='language1'>French</label><br />
+                    <input type="checkbox" name="languages" value="Spanish" onChange={this.onCheckboxChange} />
+                    <label htmlFor='language2'>Spanish</label><br />
+                    <input type="checkbox" name="languages" value="German" onChange={this.onCheckboxChange} />
+                    <label htmlFor='language3'>German</label><br />
+                </div><br />
+                <div>
+                <p>Choose Operating System</p>
+                    <input
+                        id="windows"
+                        value="windows"
+                        name="radiobtn"
+                        type="radio"
+                        onChange={this.onRadiobuttonChange}
+                    /> Windows<br />                  
+                    <input
+                        id="mac"
+                        value="mac"
+                        name="radiobtn"
+                        type="radio"
+                        onChange={this.onRadiobuttonChange}
+                    />Mac<br />                
+                    <input
+                        id="linux"
+                        value="linux"
+                        name="radiobtn"
+                        type="radio"
+                        onChange={this.onRadiobuttonChange}
+                    />Linux<br />
+                </div><br />
                 <button type="submit">Submit</button>
             </form>
         )
